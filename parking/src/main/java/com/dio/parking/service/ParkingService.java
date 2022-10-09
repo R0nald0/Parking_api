@@ -7,6 +7,7 @@ import com.dio.parking.model.Parking;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.dio.parking.model.dto.ParkingCreateDto;
 import com.dio.parking.model.dto.ParkingDTO;
 import com.dio.parking.repository.ParkingRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,4 +51,22 @@ public class ParkingService {
         return UUID.randomUUID().toString().replace("-","");
     }
 
+
+    public Parking updateParking(String id , ParkingDTO parkingDto){
+
+        Parking parking = findById(id);
+        parking.setLicense(parkingDto.getLicense());
+        parking.setColor(parkingDto.getColor());
+        parking.setModel(parkingDto.getModel());
+        parking.setState(parkingDto.getState());
+
+        parkingRepository.save(parking);
+
+         return parking;
+    }
+
+    public void deleteParking(String id){
+            Parking parking = findById(id);
+            parkingRepository.delete(parking);
+    }
 }

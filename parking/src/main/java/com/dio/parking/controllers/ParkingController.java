@@ -33,11 +33,33 @@ public class ParkingController {
         return ResponseEntity.ok(parkingDTOList);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ParkingDTO> findOne(@PathVariable String id){
+               Parking parking =parkingService.findById(id);
+               ParkingDTO parkingDTO = parkingMapper.convertToParkingDto(parking);
+          return ResponseEntity.ok(parkingDTO);
+    }
+
     @PostMapping
     public ResponseEntity<ParkingDTO> insertParking(@RequestBody ParkingCreateDto parkingCreateDto){
          ParkingDTO parkingDTO = parkingMapper.convertToParkingDto(parkingCreateDto);
             parkingService.insertPaking(parkingDTO);
           return ResponseEntity.status(HttpStatus.CREATED).body(parkingDTO);
     }
+    @PutMapping("/{id}")
+    public  ResponseEntity<ParkingDTO> upadate(@PathVariable String id , @RequestBody ParkingCreateDto parkingCreateDto){
+
+        ParkingDTO parkingDTO = parkingMapper.convertToParkingDto(parkingCreateDto);
+        parkingService.updateParking( id ,parkingDTO);
+        return ResponseEntity.ok(parkingDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteParking(@PathVariable String id){
+          parkingService.deleteParking(id);
+          return  ResponseEntity.noContent().build();
+    }
+
+
 
 }
