@@ -69,4 +69,16 @@ public class ParkingService {
             Parking parking = findById(id);
             parkingRepository.delete(parking);
     }
+
+
+    public Parking checkOut(String id){
+           Parking parking =  findById(id);
+           if (parking.getExitDate() == null){
+               parking.setExitDate(LocalDateTime.now());
+               parking.setBill(ParkingChekout.getBill(parking));
+               parkingRepository.save(parking);
+               return  parking;
+           }
+          throw  new ParkingNotFoundException(parking);
+    }
 }
